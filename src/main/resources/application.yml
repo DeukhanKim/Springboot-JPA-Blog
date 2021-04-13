@@ -1,6 +1,41 @@
+server:
+# default
+#  port: 8080
+#  servlet:
+#    context-path: /
+#
+  port: 8000
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+      
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3333/blog?serverTimezone=Asia/Seoul
     username: powinter
     password: enen1475
+    
+  jpa:
+    open-in-view: true # LAZY 전략을 가능하게함. 기본전략임. 생략가능
+    hibernate:
+      ddl-auto: update # Table을 서버 실행 시 매번 생성은 create 처음 사용 후에는 update로 변경해야됨
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # 테이블 생성시 entity의 변수명으로 테이블 필드를 생성하는 전략
+        # physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy # 카멜 표기법(ex. myEmail)으로 표현된 변수명을 언더스코어 표기법(ex. my_email)으로 변경하여 필드를 생성
+      use-new-id-generator-mappings: false # JPA 사용하는 기본 넘버링 전략을 따르지 않는다. --> DB 넘버링 전략으로 
+    show-sql: true # console에 로그 보여주게 설정됨
+    properties:
+      hibernate.format_sql: true # show-sql의 속성으로 기본은 한줄로 표현되지만 true로 설정시 정렬된 sql문으로 보여줌
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
